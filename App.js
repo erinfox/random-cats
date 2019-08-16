@@ -1,47 +1,60 @@
 import React, {Component} from "react";
-import {StyleSheet, Text, View, TouchableOpacity, Image} from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  Picker
+} from "react-native";
+
+// convert from a class to using hooks
 
 class App extends Component {
   state = {
-    gif: undefined
+    imageUrl: undefined,
+    tag: "cat"
   };
 
-  // pull out api call
-  // allow people to pick category
-  // make cat default
+  fetchGif = () => {
+    const API = `https://api.giphy.com/v1/gifs/random?api_key=1T1wLUqZOliGDhbU8OfBXQ3AkVYgYxNV&tag=${
+      this.state.tag
+    }&rating=PG`;
 
-  componentDidMount() {
-    fetch(
-      "https://api.giphy.com/v1/gifs/random?api_key=1T1wLUqZOliGDhbU8OfBXQ3AkVYgYxNV&tag=cat&rating=PG"
-    )
+    fetch(API)
       .then(response => response.json())
       .then(result => {
-        this.setState({gif: result.data.image_url});
+        console.log({state: this.state});
+        this.setState(state => ({...state, imageUrl: result.data.image_url}));
       })
       .catch(error => console.log(error));
+  };
+
+  // first mounted
+  componentDidMount() {
+    this.fetchGif();
+  }
+
+  // when state changes
+  componentDidUpdate(_, prevState) {
+    if (prevState.tag !== this.state.tag) {
+      this.fetchGif();
+    }
   }
 
   handleClick = () => {
-    fetch(
-      "https://api.giphy.com/v1/gifs/random?api_key=1T1wLUqZOliGDhbU8OfBXQ3AkVYgYxNV&tag=cat&rating=PG"
-    )
-      .then(response => response.json())
-      .then(result => {
-        this.setState({gif: result.data.image_url});
-      })
-      .catch(error => console.log(error));
+    this.fetchGif();
   };
 
   render() {
-    const {gif} = this.state;
-    console.log(gif);
+    const {imageUrl, tag} = this.state;
     return (
       <View style={styles.container}>
-        {gif && (
+        {imageUrl && (
           <Image
             style={styles.image}
             source={{
-              uri: gif
+              uri: imageUrl
             }}
           />
         )}
@@ -50,8 +63,18 @@ class App extends Component {
           activeOpacity={0.5}
           style={styles.button}
           onPress={this.handleClick}>
-          <Text style={styles.text}>Click for Cats</Text>
+          <Text style={styles.text}>New GIF Please</Text>
         </TouchableOpacity>
+        <Picker
+          style={styles.picker}
+          selectedValue={tag}
+          onValueChange={(itemValue, itemIndex) =>
+            this.setState(state => ({...state, tag: itemValue}))
+          }>
+          <Picker.Item label="Cats" value="cat" />
+          <Picker.Item label="Dogs" value="dog" />
+          <Picker.Item label="Bunnies" value="bunny" />
+        </Picker>
       </View>
     );
   }
@@ -59,18 +82,17 @@ class App extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center"
   },
+
   button: {
     height: 70,
     width: "80%",
     alignItems: "center",
     backgroundColor: "#FFB6C1",
     borderRadius: 30,
-    justifyContent: "center",
-    alignItems: "center"
+    justifyContent: "center"
   },
   text: {
     fontSize: 20,
@@ -80,12 +102,13 @@ const styles = StyleSheet.create({
   image: {
     height: 380,
     width: 380,
-    marginBottom: 50,
+    marginBottom: 20,
     borderRadius: 10
+  },
+  picker: {
+    height: 50,
+    width: "75%"
   }
 });
 
 export default App;
-
-// 1T1wLUqZOliGDhbU8OfBXQ3AkVYgYxNV
-// https://developers.giphy.com/explorer
