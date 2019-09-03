@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, {useState, useEffect} from "react";
 import {
   StyleSheet,
   Text,
@@ -8,77 +8,56 @@ import {
   Picker
 } from "react-native";
 
-// convert from a class to using hooks
+const AppWithHooks = props => {
+  // default state values, setState names
+  const [tag, setTag] = useState("cat");
+  const [imageUrl, setImageUrl] = useState(undefined);
 
-class App extends Component {
-  state = {
-    imageUrl: undefined,
-    tag: "cat"
-  };
-
-  fetchGif = () => {
-    const API = `https://api.giphy.com/v1/gifs/random?api_key=1T1wLUqZOliGDhbU8OfBXQ3AkVYgYxNV&tag=${
-      this.state.tag
-    }&rating=PG`;
+  const fetchGif = () => {
+    const API = `https://api.giphy.com/v1/gifs/random?api_key=1T1wLUqZOliGDhbU8OfBXQ3AkVYgYxNV&tag=${tag}&rating=PG`;
 
     fetch(API)
       .then(response => response.json())
-      .then(result => {
-        console.log({state: this.state});
-        this.setState(state => ({...state, imageUrl: result.data.image_url}));
-      })
+      .then(result => setImageUrl(result.data.image_url))
       .catch(error => console.log(error));
   };
 
-  // first mounted
-  componentDidMount() {
-    this.fetchGif();
-  }
+  // doing all the things (lifecycle methods)
+  // 1st parameter is inital render
+  // array is setting the state when tag changes
+  useEffect(() => {
+    fetchGif();
+  }, [tag]);
 
-  // when state changes
-  componentDidUpdate(_, prevState) {
-    if (prevState.tag !== this.state.tag) {
-      this.fetchGif();
-    }
-  }
+  return (
+    <View style={styles.container}>
+      {imageUrl && (
+        <Image
+          style={styles.image}
+          source={{
+            uri: imageUrl
+          }}
+        />
+      )}
 
-  handleClick = () => {
-    this.fetchGif();
-  };
+      <TouchableOpacity
+        activeOpacity={0.5}
+        style={styles.button}
+        onPress={() => fetchGif()}>
+        <Text style={styles.text}>New GIF Please</Text>
+      </TouchableOpacity>
+      <Picker
+        style={styles.picker}
+        selectedValue={tag}
+        onValueChange={itemValue => setTag(itemValue)}>
+        <Picker.Item label="Cats" value="cat" />
+        <Picker.Item label="Dogs" value="dog" />
+        <Picker.Item label="Bunnies" value="bunny" />
+      </Picker>
+    </View>
+  );
+};
 
-  render() {
-    const {imageUrl, tag} = this.state;
-    return (
-      <View style={styles.container}>
-        {imageUrl && (
-          <Image
-            style={styles.image}
-            source={{
-              uri: imageUrl
-            }}
-          />
-        )}
-
-        <TouchableOpacity
-          activeOpacity={0.5}
-          style={styles.button}
-          onPress={this.handleClick}>
-          <Text style={styles.text}>New GIF Please</Text>
-        </TouchableOpacity>
-        <Picker
-          style={styles.picker}
-          selectedValue={tag}
-          onValueChange={(itemValue, itemIndex) =>
-            this.setState(state => ({...state, tag: itemValue}))
-          }>
-          <Picker.Item label="Cats" value="cat" />
-          <Picker.Item label="Dogs" value="dog" />
-          <Picker.Item label="Bunnies" value="bunny" />
-        </Picker>
-      </View>
-    );
-  }
-}
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -111,4 +90,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default App;
+export default AppWithHooks;
