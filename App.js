@@ -1,12 +1,6 @@
-import React, {useState, useEffect} from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  Picker
-} from "react-native";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, Text, View, Image, Picker } from "react-native";
+import { AccessibleButton } from "./accessibility";
 
 const AppWithHooks = props => {
   // default state values, setState names
@@ -40,16 +34,20 @@ const AppWithHooks = props => {
         />
       )}
 
-      <TouchableOpacity
+      <AccessibleButton
+        label="Tap me!"
+        hint="Clicks for a new gif"
         activeOpacity={0.5}
         style={styles.button}
-        onPress={() => fetchGif()}>
+        onPress={() => fetchGif()}
+      >
         <Text style={styles.text}>New GIF Please</Text>
-      </TouchableOpacity>
+      </AccessibleButton>
       <Picker
         style={styles.picker}
         selectedValue={tag}
-        onValueChange={itemValue => setTag(itemValue)}>
+        onValueChange={itemValue => setTag(itemValue)}
+      >
         <Picker.Item label="Cats" value="cat" />
         <Picker.Item label="Dogs" value="dog" />
         <Picker.Item label="Bunnies" value="bunny" />
@@ -69,7 +67,7 @@ const styles = StyleSheet.create({
     height: 70,
     width: "80%",
     alignItems: "center",
-    backgroundColor: "#FFB6C1",
+    backgroundColor: "black",
     borderRadius: 30,
     justifyContent: "center"
   },
