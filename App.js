@@ -3,7 +3,6 @@ import { StyleSheet, Text, View, Image, Picker } from "react-native";
 import { AccessibleButton } from "./accessibility";
 
 const AppWithHooks = props => {
-  // default state values, setState names
   const [tag, setTag] = useState("cat");
   const [imageUrl, setImageUrl] = useState(undefined);
 
@@ -13,37 +12,47 @@ const AppWithHooks = props => {
     fetch(API)
       .then(response => response.json())
       .then(result => setImageUrl(result.data.image_url))
+      // .then(result => result.data.title)
       .catch(error => console.log(error));
   };
 
-  // doing all the things (lifecycle methods)
-  // 1st parameter is inital render
-  // array is setting the state when tag changes
   useEffect(() => {
     fetchGif();
   }, [tag]);
 
   return (
     <View style={styles.container}>
+      <Text accessible accessibilityRole={"header"}>
+        RANDOM GIF APP
+      </Text>
       {imageUrl && (
         <Image
+          accessible
+          accessibilityLabel="Random cat, dog or bunny gif"
+          accessibilityRole="image"
           style={styles.image}
           source={{
             uri: imageUrl
           }}
         />
       )}
-
       <AccessibleButton
-        label="Tap me!"
-        hint="Clicks for a new gif"
+        role={"button"}
+        label="Tap me for a new gif"
+        hint="A new gif will show on every press"
         activeOpacity={0.5}
         style={styles.button}
         onPress={() => fetchGif()}
       >
-        <Text style={styles.text}>New GIF Please</Text>
+        <Text accessibilityRole={"text"} style={styles.text}>
+          New GIF Please
+        </Text>
       </AccessibleButton>
       <Picker
+        accessible
+        accessibilityLabel="Select a new animal"
+        accessibilityHint="Press and scroll to select"
+        accessibilityRole="none"
         style={styles.picker}
         selectedValue={tag}
         onValueChange={itemValue => setTag(itemValue)}

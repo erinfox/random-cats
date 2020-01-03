@@ -6,8 +6,9 @@ export const AccessibleButton = props =>
   Platform.OS === "iOS" ? (
     <TouchableOpacity
       accessible={true}
-      accessibilityLabel={props.label}
       accessibilityHint={props.hint}
+      accessibilityLabel={props.label}
+      accessibilityRole={props.role}
       onPress={props.onPress}
       style={props.style}
       activeOpacity={props.activeOpacity}
@@ -18,8 +19,9 @@ export const AccessibleButton = props =>
     // android
     <TouchableOpacity
       accessible={true}
-      accessibilityLabel={props.label}
       accessibilityHint={props.hint}
+      accessibilityLabel={props.label}
+      accessibilityRole={props.role}
       onPress={props.onPress}
       style={props.style}
       activeOpacity={props.activeOpacity}
@@ -31,7 +33,8 @@ export const AccessibleButton = props =>
 AccessibleButton.propTypes = {
   label: PropTypes.string.isRequired,
   hint: PropTypes.string.isRequired,
-  onPress: PropTypes.func.isRequired
+  onPress: PropTypes.func.isRequired,
+  role: PropTypes.string.isRequired
 };
 
 // cover properties
