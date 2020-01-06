@@ -10,7 +10,7 @@ import {
 import { AccessibleButton } from "./accessibilityComponents";
 import { bold } from "ansi-colors";
 
-const AppWithHooks = props => {
+const AccessibleApp = props => {
   const [tag, setTag] = useState("cat");
   const [imageUrl, setImageUrl] = useState(undefined);
   const [imageTitle, setImageTitle] = useState(undefined);
@@ -33,11 +33,15 @@ const AppWithHooks = props => {
 
   return (
     <View style={styles.container}>
-      <Text accessible accessibilityRole={"header"} style={styles.header}>
+      <AccessibleText
+        accessible
+        accessibilityRole={"header"}
+        style={styles.header}
+      >
         RANDOM GIF APP
-      </Text>
+      </AccessibleText>
       {imageUrl && (
-        <Image
+        <AccessibleImage
           accessible
           accessibilityLabel={imageTitle}
           accessibilityRole="image"
@@ -47,20 +51,19 @@ const AppWithHooks = props => {
           }}
         />
       )}
-      <TouchableOpacity
-        accessible={true}
-        accessibilityRole="button"
-        accessibilityLabel="Press me for a new gif"
-        accessibilityHint="A new gif will show on every press"
+      <AccessibleButton
+        role={"button"}
+        label="Press me for a new gif"
+        hint="A new gif will show on every press"
         activeOpacity={0.5}
         style={styles.button}
         onPress={() => fetchGif()}
       >
-        <Text accessible accessibilityRole={"text"} style={styles.text}>
+        <AccessibleText accessibilityRole={"text"} style={styles.text}>
           New GIF Please
-        </Text>
-      </TouchableOpacity>
-      <Picker
+        </AccessibleText>
+      </AccessibleButton>
+      <AccessiblePicker
         accessible
         accessibilityLabel="Select a new animal gif"
         accessibilityHint="Press and scroll to select"
@@ -72,7 +75,7 @@ const AppWithHooks = props => {
         <Picker.Item label="Cats" value="cat" />
         <Picker.Item label="Dogs" value="dog" />
         <Picker.Item label="Bunnies" value="bunny" />
-      </Picker>
+      </AccessiblePicker>
     </View>
   );
 };
@@ -80,7 +83,7 @@ const AppWithHooks = props => {
 const styles = StyleSheet.create({
   button: {
     alignItems: "center",
-    backgroundColor: "#d86386",
+    backgroundColor: "#e43e6f",
     borderRadius: 30,
     height: 70,
     justifyContent: "center",
@@ -93,7 +96,7 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   header: {
-    color: "#ad7893",
+    color: "#395D33",
     fontSize: 40,
     fontWeight: "bold",
     paddingBottom: 20
@@ -115,4 +118,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default AppWithHooks;
+export default AccessibleApp;
