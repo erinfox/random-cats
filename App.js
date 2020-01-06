@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Image, Picker } from "react-native";
 import { AccessibleButton } from "./accessibility";
+import { bold } from "ansi-colors";
 
 const AppWithHooks = props => {
   const [tag, setTag] = useState("cat");
@@ -22,7 +23,7 @@ const AppWithHooks = props => {
 
   return (
     <View style={styles.container}>
-      <Text accessible accessibilityRole={"header"}>
+      <Text accessible accessibilityRole={"header"} style={styles.header}>
         RANDOM GIF APP
       </Text>
       {imageUrl && (
@@ -38,7 +39,7 @@ const AppWithHooks = props => {
       )}
       <AccessibleButton
         role={"button"}
-        label="Tap me for a new gif"
+        label="Press me for a new gif"
         hint="A new gif will show on every press"
         activeOpacity={0.5}
         style={styles.button}
@@ -50,7 +51,7 @@ const AppWithHooks = props => {
       </AccessibleButton>
       <Picker
         accessible
-        accessibilityLabel="Select a new animal"
+        accessibilityLabel="Select a new animal gif"
         accessibilityHint="Press and scroll to select"
         accessibilityRole="none"
         style={styles.picker}
@@ -66,34 +67,40 @@ const AppWithHooks = props => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center"
-  },
-
   button: {
-    height: 70,
-    width: "80%",
     alignItems: "center",
     backgroundColor: "black",
     borderRadius: 30,
+    height: 70,
+    justifyContent: "center",
+    marginBottom: 20,
+    width: "70%"
+  },
+  container: {
+    alignItems: "center",
+    flex: 1,
     justifyContent: "center"
   },
-  text: {
-    fontSize: 20,
+  header: {
+    color: "#395D33",
+    fontSize: 40,
     fontWeight: "bold",
-    color: "white"
+    paddingBottom: 20
   },
   image: {
+    borderRadius: 10,
     height: 380,
-    width: 380,
     marginBottom: 20,
-    borderRadius: 10
+    width: 380
   },
   picker: {
-    height: 50,
-    width: "75%"
+    height: 40,
+    width: "50%"
+  },
+  text: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "bold"
   }
 });
 
