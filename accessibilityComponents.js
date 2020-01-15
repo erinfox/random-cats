@@ -23,6 +23,7 @@ export const AccessibleImage = props =>
       accessibilityRole={props.role}
       style={props.style}
       source={props.source}
+      accessibilityIgnoresInvertColors={props.ignoreInvertColors}
     >
       {props.children}
     </Image>

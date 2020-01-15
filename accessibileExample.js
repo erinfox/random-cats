@@ -45,6 +45,7 @@ const AccessibleApp = props => {
           accessible
           accessibilityLabel={imageTitle}
           accessibilityRole="image"
+          ignoreInvertColors="true"
           style={styles.image}
           source={{
             uri: imageUrl

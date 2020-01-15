@@ -5,7 +5,8 @@ import {
   View,
   Image,
   Picker,
-  TouchableOpacity
+  TouchableOpacity,
+  AccessibilityInfo
 } from "react-native";
 import { AccessibleButton } from "./accessibilityComponents";
 import { bold } from "ansi-colors";
@@ -41,6 +42,7 @@ const AppWithHooks = props => {
           accessible
           accessibilityLabel={imageTitle}
           accessibilityRole="image"
+          accessibilityIgnoresInvertColors="true"
           style={styles.image}
           source={{
             uri: imageUrl
@@ -48,7 +50,7 @@ const AppWithHooks = props => {
         />
       )}
       <TouchableOpacity
-        accessible={true}
+        accessible
         accessibilityRole="button"
         accessibilityLabel="Press me for a new gif"
         accessibilityHint="A new gif will show on every press"
@@ -116,3 +118,8 @@ const styles = StyleSheet.create({
 });
 
 export default AppWithHooks;
+
+// "random gif app - header"
+// "gif image title - image"
+// "press me for a new gif - button"
+// "cats - adjustable"
