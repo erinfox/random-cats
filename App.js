@@ -42,7 +42,7 @@ const AppWithHooks = props => {
           accessible
           accessibilityLabel={imageTitle}
           accessibilityRole="image"
-          accessibilityIgnoresInvertColors="true"
+          accessibilityIgnoresInvertColors={true}
           style={styles.image}
           source={{
             uri: imageUrl
@@ -95,7 +95,6 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   header: {
-    color: "#ad7893",
     fontSize: 40,
     fontWeight: "bold",
     paddingBottom: 20
@@ -118,8 +117,3 @@ const styles = StyleSheet.create({
 });
 
 export default AppWithHooks;
-
-// "random gif app - header"
-// "gif image title - image"
-// "press me for a new gif - button"
-// "cats - adjustable"
